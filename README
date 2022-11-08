@@ -1,0 +1,23 @@
+# Vorax
+
+Vorax is a java game engine extendable with groovy scripts
+
+---
+
+## Implemented Features
+
+These are the currently implemented features
+
+---
+
+## Future Features
+
+These are the planned features that are not yet implemented
+
+* GUI and TUI modes
+* Text input and output
+* Groovy scripting api
+* Adding GUI components via scripting
+* Serialization System
+
+---

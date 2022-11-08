@@ -1,0 +1,9 @@
+# Gradle
+.gradle/
+build/
+bin/
+
+# VSCode
+.vscode/
+.bloop/
+.metals/

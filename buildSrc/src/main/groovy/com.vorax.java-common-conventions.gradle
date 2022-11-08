@@ -1,0 +1,37 @@
+plugins {
+    id('java')
+    id('scala')
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    include.extendsFrom(implementation)
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+
+    implementation('org.codehaus.groovy:groovy-jsr223:3.0.13')
+    implementation('org.scala-lang:scala3-library_3:3.2.0')
+
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.14.0')
+
+	compileOnly('org.projectlombok:lombok:1.18.24')
+	annotationProcessor('org.projectlombok:lombok:1.18.24')
+	
+	testCompileOnly('org.projectlombok:lombok:1.18.24')
+	testAnnotationProcessor('org.projectlombok:lombok:1.18.24')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('jar') {
+    from configurations.include.collect { it.isDirectory() ? it : zipTree(it) }
+
+    setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
