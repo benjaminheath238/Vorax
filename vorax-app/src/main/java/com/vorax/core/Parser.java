@@ -2,8 +2,12 @@ package com.vorax.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public final class Parser {
     private Map<String, Function<String[], Integer>> functions;
     private Map<Integer, String> errors;
@@ -73,5 +77,18 @@ public final class Parser {
         } else {
             return error;
         }
+    }
+
+    public Map<Integer, String> getErrors() {
+        return errors;
+    }
+
+    public Set<String> getFunctions() {
+        return functions.keySet();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{functions=%s, errors=%s}", functions.keySet(), errors);
     }
 }

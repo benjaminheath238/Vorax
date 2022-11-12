@@ -96,4 +96,9 @@ public class ModuleScript extends Script {
     public void println() {
         client.println();
     }
+
+    @Override
+    public String toString() {
+        return String.format("{phase=%s, client=%s}", phase, client);
+    }
 }

@@ -102,4 +102,9 @@ public final class ModuleLoader {
             return null;
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("{modules=%s}", modules);
+    }
 }

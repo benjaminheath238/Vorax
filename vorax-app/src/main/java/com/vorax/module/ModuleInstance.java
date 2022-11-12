@@ -57,6 +57,6 @@ public final class ModuleInstance {
 
     @Override
     public String toString() {
-        return String.format("{identifier=%s, disabled=%s, dependencies=%s}", identifier, disabled, dependencies);
+        return String.format("{identifier=%s, disabled=%s, dependencies=%s, config=%s}", identifier, disabled, dependencies, config);
     }
 }

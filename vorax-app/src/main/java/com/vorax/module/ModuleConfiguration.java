@@ -45,4 +45,9 @@ public class ModuleConfiguration {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("{file=%s, values=%s}", file, values);
+    }
 }

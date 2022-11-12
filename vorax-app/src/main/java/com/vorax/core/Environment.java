@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public final class Environment {
     private File home;
 
@@ -73,5 +76,10 @@ public final class Environment {
 
     public File open(String name) {
         return new File(home, name);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{home=%s}", home);
     }
 }

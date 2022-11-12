@@ -8,12 +8,15 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+@EqualsAndHashCode
 public final class Client {
     @Getter
     private Server server;
 
+    @Getter
     private JFrame frame;
     private JTextPane output;
     private JTextField input;
@@ -92,5 +95,10 @@ public final class Client {
         frame.dispose();
 
         server.getLoader().getModules().forEach((i, m) -> m.getConfig().save());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{server=%s}", server);
     }
 }

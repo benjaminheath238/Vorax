@@ -58,12 +58,12 @@ public final class ModuleIdentifier implements Comparable<ModuleIdentifier> {
     }
 
     @Override
-    public String toString() {
-        return String.format("{name=%s, version=[%s, %s]}", name, versionNumber, versionString);
+    public int compareTo(ModuleIdentifier module) {
+        return this.versionNumber - module.versionNumber;
     }
 
     @Override
-    public int compareTo(ModuleIdentifier module) {
-        return this.versionNumber - module.versionNumber;
+    public String toString() {
+        return String.format("{name=%s, version=[%s, %s]}", name, versionNumber, versionString);
     }
 }
