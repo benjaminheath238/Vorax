@@ -85,7 +85,7 @@ public final class Client {
     public void start() {
         frame.setVisible(true);
 
-        server.getLoader().load(server.getParser(), this);
+        server.getLoader().load(this);
     }
 
     public void stop() {

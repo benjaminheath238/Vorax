@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vorax.core.Client;
-import com.vorax.core.Parser;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,12 +33,12 @@ public final class ModuleInstance {
         this.disabled = false;
     }
 
-    public void execute(Parser parser, Client client, int phase) {
-        if (script == null || parser == null || client == null) {
+    public void execute(Client client, int phase) {
+        if (script == null || client == null) {
             throw new NullPointerException("Neither the parser, client or script can be null");
         }
 
-        script.run(parser, client, this, phase);
+        script.run(client, this, phase);
     }
 
     public void require(String name, String version) {

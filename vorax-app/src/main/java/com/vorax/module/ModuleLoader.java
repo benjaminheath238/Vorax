@@ -10,7 +10,6 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 
 import com.vorax.core.Client;
 import com.vorax.core.Environment;
-import com.vorax.core.Parser;
 
 import groovy.lang.GroovyShell;
 
@@ -29,7 +28,7 @@ public final class ModuleLoader {
         this.shell = new GroovyShell(config);
     }
 
-    public void load(Parser parser, Client client) {
+    public void load(Client client) {
         env.mkdirs("modules", "configs");
 
         // Module loading
@@ -38,7 +37,7 @@ public final class ModuleLoader {
 
             module.setScript(compile(file));
 
-            module.execute(parser, client, ModuleScript.PRE_INIT);
+            module.execute(client, ModuleScript.PRE_INIT);
 
             // Identifier initialization
             if (module.getIdentifier().getName() == null) {
@@ -61,7 +60,7 @@ public final class ModuleLoader {
 
             module.setConfig(config);
 
-            module.execute(parser, client, ModuleScript.INIT);
+            module.execute(client, ModuleScript.INIT);
 
             // Store for runtime access
             cache(module);
@@ -83,7 +82,7 @@ public final class ModuleLoader {
             }
             
             if (!module.isDisabled()) {
-                module.execute(parser, client, ModuleScript.POST_INIT);
+                module.execute(client, ModuleScript.POST_INIT);
             }
         }
     }

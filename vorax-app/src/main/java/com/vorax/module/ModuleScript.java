@@ -3,7 +3,6 @@ package com.vorax.module;
 import java.util.function.Function;
 
 import com.vorax.core.Client;
-import com.vorax.core.Parser;
 
 import groovy.lang.Script;
 
@@ -12,7 +11,6 @@ public class ModuleScript extends Script {
     public static final int INIT = 1;
     public static final int POST_INIT = 1;
 
-    protected Parser parser;
     protected Client client;
     protected ModuleInstance module;
     protected int phase;
@@ -22,8 +20,7 @@ public class ModuleScript extends Script {
         return null;
     }
 
-    public void run(Parser parser, Client client, ModuleInstance module, int phase) {
-        this.parser = parser;
+    public void run(Client client, ModuleInstance module, int phase) {
         this.client = client;
         this.module = module;
         this.phase = phase;
@@ -64,15 +61,15 @@ public class ModuleScript extends Script {
     }
 
     public void encode(int error, String message) {
-        parser.encode(error, message);
+        client.getServer().getParser().encode(error, message);
     }
 
     public String decode(int error) {
-        return parser.decode(error);
+        return client.getServer().getParser().decode(error);
     }
 
     public void register(String name, Function<String[], Integer> function) {
-        parser.register(name, function);
+        client.getServer().getParser().register(name, function);
     }
 
     @Override
