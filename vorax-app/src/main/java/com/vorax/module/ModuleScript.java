@@ -46,6 +46,14 @@ public class ModuleScript extends Script {
         return this.phase == phase;
     }
 
+    public void set(String key, Object value) {
+        module.getConfig().set(key, value);
+    }
+
+    public <T> T get(String key) {
+        return module.getConfig().get(key);
+    }
+
     public void encode(int error, String message) {
         parser.encode(error, message);
     }

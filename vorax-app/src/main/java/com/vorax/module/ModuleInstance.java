@@ -16,6 +16,7 @@ public final class ModuleInstance {
 
     private ModuleIdentifier identifier;
     private List<ModuleIdentifier> dependencies;
+    private ModuleConfiguration config;
 
     private boolean disabled;
 

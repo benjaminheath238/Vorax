@@ -30,9 +30,7 @@ public final class ModuleLoader {
     }
 
     public void load(Parser parser, Client client) {
-        if (!env.open("modules").isDirectory()) {
-            return;
-        }
+        env.mkdirs("modules", "configs");
 
         for (File file : env.open("modules").listFiles()) {
             ModuleInstance module = new ModuleInstance();
@@ -40,6 +38,27 @@ public final class ModuleLoader {
             module.setScript(compile(file));
 
             module.execute(parser, client, ModuleScript.PRE_INIT);
+
+            // Identifier initialization
+            if (module.getIdentifier().getName() == null) {
+                module.getIdentifier().setName(file.getName());
+            }
+
+            if (module.getIdentifier().getVersionString() == null) {
+                module.getIdentifier().setVersion("0.0.0");
+            }
+
+            // Config Loading
+            File cfgFile = env.open("configs/" + module.getIdentifier().getName() + ".json");
+
+            if (!cfgFile.exists()) {
+                env.touch("configs/" + module.getIdentifier().getName() + ".json");
+            }
+
+            ModuleConfiguration config = new ModuleConfiguration(cfgFile);
+            config.load();
+
+            module.setConfig(config);
 
             cache(module);
         }
