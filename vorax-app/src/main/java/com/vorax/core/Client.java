@@ -90,5 +90,7 @@ public final class Client {
 
     public void stop() {
         frame.dispose();
+
+        server.getLoader().getModules().forEach((i, m) -> m.getConfig().save());
     }
 }

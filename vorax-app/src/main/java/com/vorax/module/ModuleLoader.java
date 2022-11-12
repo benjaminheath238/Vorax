@@ -12,9 +12,12 @@ import com.vorax.core.Client;
 import com.vorax.core.Environment;
 
 import groovy.lang.GroovyShell;
+import lombok.Getter;
 
 public final class ModuleLoader {
+    @Getter
     private GroovyShell shell;
+    @Getter
     private Map<ModuleIdentifier, ModuleInstance> modules;
     private Environment env;
 
