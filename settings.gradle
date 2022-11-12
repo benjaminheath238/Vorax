@@ -1,4 +1,4 @@
 rootProject.name = 'Vorax'
 
 include(':vorax-client')
-include(':vorax-server')
+include(':vorax-app')
