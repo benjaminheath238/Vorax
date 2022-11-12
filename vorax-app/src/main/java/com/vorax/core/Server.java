@@ -1,6 +1,5 @@
-package com.vorax.server;
+package com.vorax.core;
 
-import com.vorax.layer.framework.FSLayer;
 import com.vorax.module.ModuleLoader;
 
 import lombok.Getter;
@@ -9,11 +8,11 @@ import lombok.Getter;
 public final class Server {
     private Parser parser;
     private ModuleLoader loader;
-    private FSLayer fs;
+    private Environment env;
 
-    public Server(FSLayer fs) {
-        this.fs = fs;
+    public Server(Environment env) {
+        this.env = env;
         this.parser = new Parser();
-        this.loader = new ModuleLoader(fs);
+        this.loader = new ModuleLoader(env);
     }
 }

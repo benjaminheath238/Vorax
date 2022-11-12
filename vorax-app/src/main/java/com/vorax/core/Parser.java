@@ -1,4 +1,4 @@
-package com.vorax.server;
+package com.vorax.core;
 
 import java.util.HashMap;
 import java.util.Map;

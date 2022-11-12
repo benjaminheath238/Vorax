@@ -2,8 +2,8 @@ package com.vorax.module;
 
 import java.util.function.Function;
 
-import com.vorax.client.Client;
-import com.vorax.server.Parser;
+import com.vorax.core.Client;
+import com.vorax.core.Parser;
 
 import groovy.lang.Script;
 

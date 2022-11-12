@@ -1,7 +1,6 @@
-package com.vorax.client;
+package com.vorax.core;
 
 import java.awt.BorderLayout;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -9,15 +8,19 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 
-import com.vorax.layer.SwingIOLayer;
-import com.vorax.server.Server;
+import lombok.Getter;
 
-public final class SwingClient extends Client {
+@Getter
+public final class Client {
+    private Server server;
+
     private JFrame frame;
     private JTextPane output;
     private JTextField input;
 
-    public SwingClient(Server server) {
+    public Client(Server server) {
+        this.server = server;
+
         this.frame = new JFrame();
         this.output = new JTextPane();
         this.input = new JTextField();
@@ -31,10 +34,9 @@ public final class SwingClient extends Client {
         output.setEditable(false);
 
         input.addActionListener(e -> {
-            String text = read();
+            String text = input.getText();
 
             if (text == null || text.isEmpty() || text.isBlank()) {
-                clear(true, false);
                 return;
             }
 
@@ -44,7 +46,7 @@ public final class SwingClient extends Client {
                 stop();
             } else if (error != 0) {
                 if (error != 1) {
-                    clear(true, false);
+                    input.setText(null);
                 }
                 
                 println(decode(error));
@@ -53,9 +55,31 @@ public final class SwingClient extends Client {
 
         frame.add(new JScrollPane(output), BorderLayout.CENTER);
         frame.add(input, BorderLayout.SOUTH);
+    }
 
-        setIOLayer(new SwingIOLayer(input, output));
-        setServer(server);
+    public int parse(String text) {
+        return server.getParser().parse(text);
+    }
+
+    public String decode(int error) {
+        return server.getParser().decode(error);
+    }
+
+    public void print(Object object) {
+        output.setText(output.getText() + object);
+    }
+
+    public void printf(String format, Object... args) {
+        print(String.format(format, args));
+    }
+
+    public void println(Object object) {
+        print(object.toString());
+        println();
+    }
+
+    public void println() {
+        print("\n");
     }
 
     public void start() {
@@ -66,10 +90,5 @@ public final class SwingClient extends Client {
 
     public void stop() {
         frame.dispose();
-        try {
-            io.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

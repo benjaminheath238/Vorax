@@ -1,8 +1,8 @@
 package com.vorax;
 
-import com.vorax.client.SwingClient;
-import com.vorax.layer.FileSystemLayer;
-import com.vorax.server.Server;
+import com.vorax.core.Client;
+import com.vorax.core.Environment;
+import com.vorax.core.Server;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,6 +13,6 @@ public class Main {
             return;
         }
 
-        new SwingClient(new Server(new FileSystemLayer(path))).start();
+        new Client(new Server(new Environment(path))).start();
     }
 }

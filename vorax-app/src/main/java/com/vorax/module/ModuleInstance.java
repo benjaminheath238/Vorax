@@ -3,8 +3,8 @@ package com.vorax.module;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vorax.client.Client;
-import com.vorax.server.Parser;
+import com.vorax.core.Client;
+import com.vorax.core.Parser;
 
 import lombok.Getter;
 import lombok.Setter;

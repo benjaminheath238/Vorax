@@ -8,19 +8,19 @@ import java.util.Map;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
-import com.vorax.client.Client;
-import com.vorax.layer.framework.FSLayer;
-import com.vorax.server.Parser;
+import com.vorax.core.Client;
+import com.vorax.core.Environment;
+import com.vorax.core.Parser;
 
 import groovy.lang.GroovyShell;
 
 public final class ModuleLoader {
     private GroovyShell shell;
     private Map<ModuleIdentifier, ModuleInstance> modules;
-    private FSLayer fs;
+    private Environment env;
 
-    public ModuleLoader(FSLayer fs) {
-        this.fs = fs;
+    public ModuleLoader(Environment env) {
+        this.env = env;
         this.modules = new HashMap<>();
 
         CompilerConfiguration config = new CompilerConfiguration();
@@ -30,11 +30,11 @@ public final class ModuleLoader {
     }
 
     public void load(Parser parser, Client client) {
-        if (!fs.open("modules").isDirectory()) {
+        if (!env.open("modules").isDirectory()) {
             return;
         }
 
-        for (File file : fs.open("modules").listFiles()) {
+        for (File file : env.open("modules").listFiles()) {
             ModuleInstance module = new ModuleInstance();
 
             module.setScript(compile(file));
