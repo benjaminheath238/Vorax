@@ -1,4 +1,3 @@
 rootProject.name = 'Vorax'
 
-include(':vorax-client')
 include(':vorax-app')
