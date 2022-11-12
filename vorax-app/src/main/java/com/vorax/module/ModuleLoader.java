@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.customizers.ImportCustomizer;
 
 import com.vorax.core.Client;
 import com.vorax.core.Environment;
@@ -25,8 +26,12 @@ public final class ModuleLoader {
         this.env = env;
         this.modules = new HashMap<>();
 
+        ImportCustomizer imports = new ImportCustomizer();
+        imports.addStarImports("com.vorax.extern");
+
         CompilerConfiguration config = new CompilerConfiguration();
         config.setScriptBaseClass(ModuleScript.class.getCanonicalName());
+        config.addCompilationCustomizers(imports);
 
         this.shell = new GroovyShell(config);
     }
