@@ -10,8 +10,8 @@ import javax.swing.WindowConstants;
 
 import lombok.Getter;
 
-@Getter
 public final class Client {
+    @Getter
     private Server server;
 
     private JFrame frame;

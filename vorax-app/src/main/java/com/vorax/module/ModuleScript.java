@@ -55,6 +55,14 @@ public class ModuleScript extends Script {
         return module.getConfig().get(key);
     }
 
+    public void write(String key, Object value) {
+        client.getServer().getState().write(key, value);
+    }
+
+    public <T> T read(String key) {
+        return client.getServer().getState().read(key);
+    }
+
     public void encode(int error, String message) {
         parser.encode(error, message);
     }
