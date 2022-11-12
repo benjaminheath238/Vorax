@@ -10,6 +10,7 @@ import groovy.lang.Script;
 public class ModuleScript extends Script {
     public static final int PRE_INIT = 0;
     public static final int INIT = 1;
+    public static final int POST_INIT = 1;
 
     protected Parser parser;
     protected Client client;

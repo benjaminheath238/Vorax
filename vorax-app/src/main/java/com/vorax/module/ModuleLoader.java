@@ -32,6 +32,7 @@ public final class ModuleLoader {
     public void load(Parser parser, Client client) {
         env.mkdirs("modules", "configs");
 
+        // Module loading
         for (File file : env.open("modules").listFiles()) {
             ModuleInstance module = new ModuleInstance();
 
@@ -60,9 +61,13 @@ public final class ModuleLoader {
 
             module.setConfig(config);
 
+            module.execute(parser, client, ModuleScript.INIT);
+
+            // Store for runtime access
             cache(module);
         }
 
+        // Module running
         for (ModuleInstance module : modules.values()) {
             // Dependency checking
             for (ModuleIdentifier dependency : module.getDependencies()) {
@@ -78,7 +83,7 @@ public final class ModuleLoader {
             }
             
             if (!module.isDisabled()) {
-                module.execute(parser, client, ModuleScript.INIT);
+                module.execute(parser, client, ModuleScript.POST_INIT);
             }
         }
     }
