@@ -48,11 +48,9 @@ public final class Client {
             if (error == 2) {
                 stop();
             } else if (error != 0) {
-                if (error != 1) {
-                    input.setText(null);
-                }
-                
                 println(decode(error));
+            } else {
+                input.setText(null);
             }
         });
 
