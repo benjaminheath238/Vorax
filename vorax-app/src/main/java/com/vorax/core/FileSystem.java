@@ -10,10 +10,10 @@ import java.io.OutputStream;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public final class Environment {
+public final class FileSystem {
     private File home;
 
-    public Environment(String home) {
+    public FileSystem(String home) {
         this.home = new File(home);
     }
 
@@ -61,7 +61,7 @@ public final class Environment {
     }
 
     public void extract(String from, String to) {
-        try (InputStream in = Environment.class.getResourceAsStream(from);
+        try (InputStream in = FileSystem.class.getResourceAsStream(from);
                 OutputStream out = new FileOutputStream(open(to))) {
             out.write(in.readAllBytes());
         } catch (IOException e) {

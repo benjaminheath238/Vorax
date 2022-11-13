@@ -1,7 +1,7 @@
 package com.vorax;
 
 import com.vorax.core.Client;
-import com.vorax.core.Environment;
+import com.vorax.core.FileSystem;
 import com.vorax.core.Server;
 
 public class Main {
@@ -13,6 +13,6 @@ public class Main {
             return;
         }
 
-        new Client(new Server(new Environment(path))).start();
+        new Client(new Server(new FileSystem(path))).start();
     }
 }
