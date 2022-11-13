@@ -8,7 +8,8 @@ public final class ModuleIdentifier implements Comparable<ModuleIdentifier> {
     private String versionString;
     private int versionNumber;
 
-    public ModuleIdentifier() {}
+    public ModuleIdentifier() {
+    }
 
     public ModuleIdentifier(String name) {
         this();
@@ -20,7 +21,7 @@ public final class ModuleIdentifier implements Comparable<ModuleIdentifier> {
         setVersion(version);
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         if (name == null) {
             name = "";
         }

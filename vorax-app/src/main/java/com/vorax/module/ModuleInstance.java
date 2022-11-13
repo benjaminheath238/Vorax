@@ -19,13 +19,6 @@ public final class ModuleInstance {
 
     private boolean disabled;
 
-    public ModuleInstance(String name, String version) {
-        this.identifier = new ModuleIdentifier(name, version);
-        this.script = null;
-        this.dependencies = new ArrayList<>();
-        this.disabled = false;
-    }
-
     public ModuleInstance() {
         this.identifier = new ModuleIdentifier();
         this.script = null;
@@ -57,6 +50,7 @@ public final class ModuleInstance {
 
     @Override
     public String toString() {
-        return String.format("{identifier=%s, disabled=%s, dependencies=%s, config=%s}", identifier, disabled, dependencies, config);
+        return String.format("{identifier=%s, disabled=%s, dependencies=%s, config=%s}", identifier, disabled,
+                dependencies, config);
     }
 }

@@ -10,18 +10,18 @@ import lombok.Getter;
 public final class Server {
     private Parser parser;
     private ModuleLoader loader;
-    private Environment env;
+    private FileSystem fs;
     private State state;
 
-    public Server(Environment env) {
-        this.env = env;
+    public Server(FileSystem fs) {
+        this.fs = fs;
         this.parser = new Parser();
-        this.loader = new ModuleLoader(env);
+        this.loader = new ModuleLoader(fs);
         this.state = new State();
     }
-    
+
     @Override
     public String toString() {
-        return String.format("{parser=%s, loader=%s, env=%s, state=%s}", parser, loader, env, state);
+        return String.format("{parser=%s, loader=%s, env=%s, state=%s}", parser, loader, fs, state);
     }
 }

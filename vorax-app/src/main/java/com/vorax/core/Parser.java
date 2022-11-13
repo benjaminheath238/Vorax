@@ -33,7 +33,7 @@ public final class Parser {
         if (name == null) {
             throw new NullPointerException("Function names can not be null");
         }
-        
+
         if (name.contains(" ")) {
             throw new IllegalArgumentException("Function names can not contain white space");
         }

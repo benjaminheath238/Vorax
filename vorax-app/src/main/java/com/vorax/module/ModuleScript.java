@@ -28,6 +28,8 @@ public class ModuleScript extends Script {
         run();
     }
 
+    // Module access
+
     public void setName(String name) {
         module.getIdentifier().setName(name);
     }
@@ -40,26 +42,7 @@ public class ModuleScript extends Script {
         module.require(name, version);
     }
 
-    public boolean isPhase(int phase) {
-        return this.phase == phase;
-    }
-
-    public boolean isModuleLoaded(String name, String version) {
-        ModuleIdentifier id = new ModuleIdentifier(name, version);
-        return client
-                .getServer()
-                .getLoader()
-                .getModules()
-                .containsKey(id)
-                        ? client
-                                .getServer()
-                                .getLoader()
-                                .getModules()
-                                .get(id)
-                                .getIdentifier()
-                                .compareTo(id) >= 0
-                        : false;
-    }
+    // Configuration access
 
     public void set(String key, Object value) {
         module.getConfig().set(key, value);
@@ -69,6 +52,8 @@ public class ModuleScript extends Script {
         return module.getConfig().get(key);
     }
 
+    // State access
+
     public void write(String key, Object value) {
         client.getServer().getState().write(key, value);
     }
@@ -76,6 +61,8 @@ public class ModuleScript extends Script {
     public <T> T read(String key) {
         return client.getServer().getState().read(key);
     }
+
+    // Parser access
 
     public void encode(int error, String message) {
         client.getServer().getParser().encode(error, message);
@@ -88,6 +75,8 @@ public class ModuleScript extends Script {
     public void register(String name, Function<String[], Integer> function) {
         client.getServer().getParser().register(name, function);
     }
+
+    // Print overrides
 
     @Override
     public void print(Object value) {
@@ -117,5 +106,28 @@ public class ModuleScript extends Script {
     @Override
     public String toString() {
         return String.format("{phase=%s, client=%s}", phase, client);
+    }
+
+    // Predicates
+
+    public boolean isPhase(int phase) {
+        return this.phase == phase;
+    }
+
+    public boolean isModuleLoaded(String name, String version) {
+        ModuleIdentifier id = new ModuleIdentifier(name, version);
+        return client
+                .getServer()
+                .getLoader()
+                .getModules()
+                .containsKey(id)
+                        ? client
+                                .getServer()
+                                .getLoader()
+                                .getModules()
+                                .get(id)
+                                .getIdentifier()
+                                .compareTo(id) >= 0
+                        : false;
     }
 }

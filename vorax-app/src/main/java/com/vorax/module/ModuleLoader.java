@@ -28,11 +28,11 @@ public final class ModuleLoader {
 
         ImportCustomizer imports = new ImportCustomizer();
         imports.addStarImports(
-            "com.vorax.extern",
-            "java.awt",
-            "java.awt.event",
-            "javax.swing.border",
-            "javax.swing");
+                "com.vorax.extern",
+                "java.awt",
+                "java.awt.event",
+                "javax.swing.border",
+                "javax.swing");
 
         CompilerConfiguration config = new CompilerConfiguration();
         config.setScriptBaseClass(ModuleScript.class.getCanonicalName());
@@ -84,16 +84,18 @@ public final class ModuleLoader {
             // Dependency checking
             for (ModuleIdentifier dependency : module.getDependencies()) {
                 if (!modules.containsKey(dependency)) {
-                    client.printf("The module %s requires dependency %s but it is not present\n", module.getIdentifier(), dependency);
+                    client.printf("The module %s requires dependency %s but it is not present\n",
+                            module.getIdentifier(), dependency);
                     module.setDisabled(true);
                 }
-                
+
                 if (modules.get(dependency).getIdentifier().compareTo(dependency) < 0) {
-                    client.printf("The module %s requires %s but %s is present\n", module.getIdentifier(), dependency, modules.get(dependency).getIdentifier());
+                    client.printf("The module %s requires %s but %s is present\n", module.getIdentifier(), dependency,
+                            modules.get(dependency).getIdentifier());
                     module.setDisabled(true);
                 }
             }
-            
+
             if (!module.isDisabled()) {
                 module.execute(client, ModuleScript.POST_INIT);
             }
