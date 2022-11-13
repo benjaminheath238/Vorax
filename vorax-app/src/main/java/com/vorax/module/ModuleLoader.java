@@ -10,7 +10,7 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
 
 import com.vorax.core.Client;
-import com.vorax.core.Environment;
+import com.vorax.core.FileSystem;
 
 import groovy.lang.GroovyShell;
 import lombok.Getter;
@@ -20,14 +20,19 @@ public final class ModuleLoader {
     private GroovyShell shell;
     @Getter
     private Map<ModuleIdentifier, ModuleInstance> modules;
-    private Environment env;
+    private FileSystem fs;
 
-    public ModuleLoader(Environment env) {
-        this.env = env;
+    public ModuleLoader(FileSystem fs) {
+        this.fs = fs;
         this.modules = new HashMap<>();
 
         ImportCustomizer imports = new ImportCustomizer();
-        imports.addStarImports("com.vorax.extern");
+        imports.addStarImports(
+            "com.vorax.extern",
+            "java.awt",
+            "java.awt.event",
+            "javax.swing.border",
+            "javax.swing");
 
         CompilerConfiguration config = new CompilerConfiguration();
         config.setScriptBaseClass(ModuleScript.class.getCanonicalName());
@@ -37,10 +42,10 @@ public final class ModuleLoader {
     }
 
     public void load(Client client) {
-        env.mkdirs("modules", "configs");
+        fs.mkdirs("modules", "configs");
 
         // Module loading
-        for (File file : env.open("modules").listFiles()) {
+        for (File file : fs.open("modules").listFiles()) {
             ModuleInstance module = new ModuleInstance();
 
             module.setScript(compile(file));
@@ -57,10 +62,10 @@ public final class ModuleLoader {
             }
 
             // Config Loading
-            File cfgFile = env.open("configs/" + module.getIdentifier().getName() + ".json");
+            File cfgFile = fs.open("configs/" + module.getIdentifier().getName() + ".json");
 
             if (!cfgFile.exists()) {
-                env.touch("configs/" + module.getIdentifier().getName() + ".json");
+                fs.touch("configs/" + module.getIdentifier().getName() + ".json");
             }
 
             ModuleConfiguration config = new ModuleConfiguration(cfgFile);

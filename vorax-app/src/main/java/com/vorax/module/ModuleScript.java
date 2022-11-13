@@ -44,6 +44,23 @@ public class ModuleScript extends Script {
         return this.phase == phase;
     }
 
+    public boolean isModuleLoaded(String name, String version) {
+        ModuleIdentifier id = new ModuleIdentifier(name, version);
+        return client
+                .getServer()
+                .getLoader()
+                .getModules()
+                .containsKey(id)
+                        ? client
+                                .getServer()
+                                .getLoader()
+                                .getModules()
+                                .get(id)
+                                .getIdentifier()
+                                .compareTo(id) >= 0
+                        : false;
+    }
+
     public void set(String key, Object value) {
         module.getConfig().set(key, value);
     }
