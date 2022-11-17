@@ -27,12 +27,7 @@ public final class ModuleLoader {
         this.modules = new HashMap<>();
 
         ImportCustomizer imports = new ImportCustomizer();
-        imports.addStarImports(
-                "com.vorax.extern",
-                "java.awt",
-                "java.awt.event",
-                "javax.swing.border",
-                "javax.swing");
+        imports.addStarImports();
 
         CompilerConfiguration config = new CompilerConfiguration();
         config.setScriptBaseClass(ModuleScript.class.getCanonicalName());
