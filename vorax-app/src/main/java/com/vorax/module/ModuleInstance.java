@@ -1,5 +1,6 @@
 package com.vorax.module;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Setter
 public final class ModuleInstance {
     private ModuleScript script;
+    private File scriptFile;
 
     private ModuleIdentifier identifier;
     private List<ModuleIdentifier> dependencies;

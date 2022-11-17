@@ -36,60 +36,27 @@ public final class ModuleLoader {
         this.shell = new GroovyShell(config);
     }
 
+    public void reload(Client client) {
+        for (ModuleInstance module : modules.values()) {
+            module.setScript(compile(module.getScriptFile()));
+        }
+
+        for (ModuleInstance module : modules.values()) {
+            module.execute(client, ModuleScript.POST_INIT);
+        }
+    }
+
     public void load(Client client) {
         fs.mkdirs("modules", "configs");
 
         // Module loading
         for (File file : fs.open("modules").listFiles()) {
-            ModuleInstance module = new ModuleInstance();
-
-            module.setScript(compile(file));
-
-            module.execute(client, ModuleScript.PRE_INIT);
-
-            // Identifier initialization
-            if (module.getIdentifier().getName() == null) {
-                module.getIdentifier().setName(file.getName());
-            }
-
-            if (module.getIdentifier().getVersionString() == null) {
-                module.getIdentifier().setVersion("0.0.0");
-            }
-
-            // Config Loading
-            File cfgFile = fs.open("configs/" + module.getIdentifier().getName() + ".json");
-
-            if (!cfgFile.exists()) {
-                fs.touch("configs/" + module.getIdentifier().getName() + ".json");
-            }
-
-            ModuleConfiguration config = new ModuleConfiguration(cfgFile);
-            config.load();
-
-            module.setConfig(config);
-
-            module.execute(client, ModuleScript.INIT);
-
-            // Store for runtime access
-            cache(module);
+            createModule(file, client);
         }
 
         // Module running
         for (ModuleInstance module : modules.values()) {
-            // Dependency checking
-            for (ModuleIdentifier dependency : module.getDependencies()) {
-                if (!modules.containsKey(dependency)) {
-                    client.printf("The module %s requires dependency %s but it is not present\n",
-                            module.getIdentifier(), dependency);
-                    module.setDisabled(true);
-                }
-
-                if (modules.get(dependency).getIdentifier().compareTo(dependency) < 0) {
-                    client.printf("The module %s requires %s but %s is present\n", module.getIdentifier(), dependency,
-                            modules.get(dependency).getIdentifier());
-                    module.setDisabled(true);
-                }
-            }
+            checkDependencies(module, client);
 
             if (!module.isDisabled()) {
                 module.execute(client, ModuleScript.POST_INIT);
@@ -107,6 +74,57 @@ public final class ModuleLoader {
         } catch (CompilationFailedException | IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private void createModule(File file, Client client) {
+        ModuleInstance module = new ModuleInstance();
+
+        module.setScript(compile(file));
+        module.setScriptFile(file);
+
+        module.execute(client, ModuleScript.PRE_INIT);
+
+        // Identifier initialization
+        if (module.getIdentifier().getName() == null) {
+            module.getIdentifier().setName(file.getName());
+        }
+
+        if (module.getIdentifier().getVersionString() == null) {
+            module.getIdentifier().setVersion("0.0.0");
+        }
+
+        // Config Loading
+        File cfgFile = fs.open("configs/" + module.getIdentifier().getName() + ".json");
+
+        if (!cfgFile.exists()) {
+            fs.touch("configs/" + module.getIdentifier().getName() + ".json");
+        }
+
+        ModuleConfiguration config = new ModuleConfiguration(cfgFile);
+        config.load();
+
+        module.setConfig(config);
+
+        module.execute(client, ModuleScript.INIT);
+
+        // Store for runtime access
+        cache(module);
+    }
+
+    private void checkDependencies(ModuleInstance module, Client client) {
+        for (ModuleIdentifier dependency : module.getDependencies()) {
+            if (!modules.containsKey(dependency)) {
+                client.printf("The module %s requires dependency %s but it is not present\n",
+                        module.getIdentifier(), dependency);
+                module.setDisabled(true);
+            }
+
+            if (modules.get(dependency).getIdentifier().compareTo(dependency) < 0) {
+                client.printf("The module %s requires %s but %s is present\n", module.getIdentifier(), dependency,
+                        modules.get(dependency).getIdentifier());
+                module.setDisabled(true);
+            }
         }
     }
 

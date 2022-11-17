@@ -8,3 +8,7 @@ bin/
 .bloop/
 .metals/
 .scalafmt.conf
+
+# Vorax
+modules/
+configs/
