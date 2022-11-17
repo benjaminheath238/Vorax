@@ -39,6 +39,7 @@ public final class ModuleLoader {
     public void reload(Client client) {
         for (ModuleInstance module : modules.values()) {
             module.setScript(compile(module.getScriptFile()));
+            module.getConfig().load();
         }
 
         for (ModuleInstance module : modules.values()) {
@@ -82,6 +83,10 @@ public final class ModuleLoader {
 
         module.setScript(compile(file));
         module.setScriptFile(file);
+
+        if (module.getScript() == null) {
+            module.setDisabled(true);
+        }
 
         module.execute(client, ModuleScript.PRE_INIT);
 
